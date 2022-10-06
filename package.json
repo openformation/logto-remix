@@ -8,6 +8,7 @@
     "url": "https://openformation.io"
   },
   "license": "See LICENSE",
+  "main": "./dist/index.js",
   "scripts": {
     "bootstrap": "./scripts/bootstrap",
     "clean": "./scripts/clean",
