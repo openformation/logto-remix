@@ -1,0 +1,16 @@
+{
+  "extends": "@tsconfig/recommended/tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist",
+
+    "composite": true,
+    "declaration": true,
+    "incremental": true,
+
+    "removeComments": true,
+    "alwaysStrict": true
+  },
+  "include": ["src"],
+  "exclude": ["**/.*/", "**/node_modules", "dist"]
+}

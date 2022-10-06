@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+set -e
+
+#
+# Cleans all local compiled files AND
+# deletes all local `node_modules`.
+#
+# Usage:
+#
+# ````sh
+# scripts/powerwash
+# ````
+#
+
+echo "🧼 Washing ..."
+
+echo "⌨️  Executing 'clean' scripts in all packages ..."
+pnpm run -r clean
+
+echo "📦 Removing all local node_modules ..."
+find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +
+
+echo "✅ Cleaned everything. IMPORTANT: Please make sure to execute 'pnpm run bootstrap' in order to prepare the local environment again."

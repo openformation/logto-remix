@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+set -e
+
+#
+# Removes all local compiled files
+#
+# Usage:
+#
+# ````sh
+# scripts/clean
+# ````
+#
+
+rm -rf dist
+rm -f tsconfig.tsbuildinfo
