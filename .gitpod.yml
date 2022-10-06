@@ -1,0 +1,4 @@
+image: openformation/gitpod-node
+vscode:
+  extensions:
+    - "esbenp.prettier-vscode"

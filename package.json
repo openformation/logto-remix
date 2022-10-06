@@ -1,0 +1,11 @@
+{
+  "name": "@openformation/logto-remix",
+  "version": "1.0.0",
+  "description": "Logto Remix SDK",
+  "author": {
+    "name": "Open Formation GmbH",
+    "email": "info@openformation.io",
+    "url": "https://openformation.io"
+  },
+  "license": "See LICENSE"
+}
