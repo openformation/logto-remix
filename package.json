@@ -8,6 +8,12 @@
     "url": "https://openformation.io"
   },
   "license": "See LICENSE",
+  "scripts": {
+    "bootstrap": "./scripts/bootstrap",
+    "clean": "./scripts/clean",
+    "compile": "./scripts/compile",
+    "powerwash": "./scripts/powerwash"
+  },
   "lint-staged": {
     "./**/*.{ts,tsx,js,json,css,md}": [
       "prettier --write"
