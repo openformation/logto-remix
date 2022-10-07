@@ -13,6 +13,7 @@
     "bootstrap": "./scripts/bootstrap",
     "clean": "./scripts/clean",
     "compile": "./scripts/compile",
+    "compile:watch": "./scripts/compile:watch",
     "powerwash": "./scripts/powerwash"
   },
   "lint-staged": {
