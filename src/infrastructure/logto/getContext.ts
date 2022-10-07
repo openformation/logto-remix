@@ -17,7 +17,7 @@ import { CreateLogtoClient } from "./createClient";
 import { LogtoStorage } from "./createStorage";
 
 type GetContextRequest = {
-  readonly includeAccessToken?: boolean;
+  readonly includeAccessToken: boolean;
 };
 
 type GetContextResponse = {
@@ -31,7 +31,7 @@ export const makeGetContext =
 
     const client = createClient();
 
-    const context = await client.getContext();
+    const context = await client.getContext(request.includeAccessToken);
 
     return {
       context,

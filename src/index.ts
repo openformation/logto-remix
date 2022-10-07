@@ -12,7 +12,8 @@
  */
 
 import { LogtoConfig } from "@logto/node";
-import { redirect, SessionStorage } from "@remix-run/node";
+import { SessionStorage } from "@remix-run/node";
+import { getCookieHeaderFromRequest } from "./framework/getCookieHeaderFromRequest";
 import { makeLogtoAdapter } from "./infrastructure/logto";
 import { makeGetContext } from "./useCases/getContext";
 import { makeHandleSignIn } from "./useCases/handleSignIn";
@@ -34,97 +35,25 @@ export const makeLogtoRemix = (
   const createLogtoAdapter = makeLogtoAdapter(config);
 
   return Object.freeze({
-    handleSignIn: async (request: Request) => {
-      const execute = makeHandleSignIn({ createLogtoAdapter, sessionStorage });
+    handleSignIn: makeHandleSignIn(
+      { redirectBackTo: `${config.baseUrl}/authentication/sign-in-callback` },
+      { createLogtoAdapter, sessionStorage }
+    ),
 
-      const cookieHeader = request.headers.get("Cookie");
+    handleSignInCallback: makeHandleSignInCallback(
+      { redirectBackTo: config.baseUrl },
+      { createLogtoAdapter, sessionStorage }
+    ),
 
-      const result = await execute({
-        cookieHeader,
-        redirectUri: `${config.baseUrl}/api/sign-in-callback`,
-      });
+    handleSignOut: makeHandleSignOut(
+      { redirectBackTo: `${config.baseUrl}/` },
+      { createLogtoAdapter, sessionStorage }
+    ),
 
-      return redirect(result.navigateToUrl, {
-        headers: {
-          "Set-Cookie": result.cookieHeader,
-        },
-      });
-    },
-    handleSignInCallback: async (request: Request) => {
-      const execute = makeHandleSignInCallback({
+    getContext: (dto: { includeAccessToken: boolean }) =>
+      makeGetContext(dto, {
         createLogtoAdapter,
         sessionStorage,
-      });
-
-      const cookieHeader = request.headers.get("Cookie");
-
-      if (!cookieHeader) {
-        // TODO: Throw semantic error
-        throw new Error();
-      }
-
-      // DOCME
-      const isForwardedHttpsTraffic =
-        request.headers.get("x-forwarded-proto") === "https";
-
-      const callbackUri = isForwardedHttpsTraffic
-        ? request.url.replace("http", "https")
-        : request.url;
-
-      const result = await execute({
-        cookieHeader,
-        callbackUri,
-      });
-
-      return redirect("/", {
-        headers: {
-          "Set-Cookie": result.cookieHeader,
-        },
-      });
-    },
-    handleSignOut: async (request: Request) => {
-      const execute = makeHandleSignOut({
-        createLogtoAdapter,
-        sessionStorage,
-      });
-
-      const cookieHeader = request.headers.get("Cookie");
-
-      if (!cookieHeader) {
-        // TODO: Throw semantic error
-        throw new Error();
-      }
-
-      const result = await execute({
-        cookieHeader,
-        redirectUri: "/api/sign-in",
-      });
-
-      return redirect("/", {
-        headers: {
-          "Set-Cookie": result.cookieHeader,
-        },
-      });
-    },
-
-    getContext: async (request: Request) => {
-      const execute = makeGetContext({
-        createLogtoAdapter,
-        sessionStorage,
-      });
-
-      const cookieHeader = request.headers.get("Cookie");
-
-      if (!cookieHeader) {
-        // TODO: Throw semantic error
-        throw new Error();
-      }
-
-      const result = await execute({
-        cookieHeader,
-      });
-
-      return result.context;
-    },
+      }),
   });
 };

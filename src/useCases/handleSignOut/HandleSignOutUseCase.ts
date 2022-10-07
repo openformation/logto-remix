@@ -12,34 +12,40 @@
  */
 
 import { SessionStorage } from "@remix-run/node";
-import { CreateLogtoAdapter, LogtoContext } from "../infrastructure/logto";
+import { CreateLogtoAdapter } from "../../infrastructure/logto";
 
-type GetContextRequest = {
+type SignOutRequest = {
   readonly cookieHeader: string | null;
-  readonly includeAccessToken?: boolean;
+  redirectUri: string;
 };
 
-type GetContextResponse = {
-  context: Readonly<LogtoContext>;
+type SignOutResponse = {
+  cookieHeader: string;
+  readonly navigateToUrl: string;
 };
 
-export const makeGetContext =
+export const makeHandleSignOutUseCase =
   (deps: {
     createLogtoAdapter: CreateLogtoAdapter;
     sessionStorage: SessionStorage;
   }) =>
-  async (request: GetContextRequest): Promise<GetContextResponse> => {
+  async (request: SignOutRequest): Promise<SignOutResponse> => {
     const { sessionStorage, createLogtoAdapter } = deps;
 
     const session = await sessionStorage.getSession(request.cookieHeader);
 
     const logto = createLogtoAdapter(session);
 
-    const response = await logto.getContext({
-      includeAccessToken: request.includeAccessToken,
+    const response = await logto.handleSignOut({
+      redirectUri: request.redirectUri,
     });
 
+    const cookieHeader = await sessionStorage.destroySession(session);
+
     return {
-      context: response.context,
+      cookieHeader,
+      navigateToUrl: response.navigateToUrl,
     };
   };
+
+export type HandleSignOutUseCase = ReturnType<typeof makeHandleSignOutUseCase>;
