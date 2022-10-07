@@ -11,12 +11,14 @@
  *
  */
 
-import { LoaderFunction, json, redirect } from "@remix-run/node";
+import { json, LoaderFunction } from "@remix-run/node";
 
-import { logto } from "../../services/authentication";
+import { logto } from "../../../services/authentication";
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const context = await logto.getContext({ includeAccessToken: true })(request);
+  const context = await logto.getContext({ includeAccessToken: false })(
+    request
+  );
 
-  return json({ context });
+  return json(context);
 };
