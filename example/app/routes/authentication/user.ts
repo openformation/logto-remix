@@ -16,11 +16,7 @@ import { LoaderFunction, json, redirect } from "@remix-run/node";
 import { logto } from "../../services/authentication";
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const context = await logto.getContext(request);
-
-  if (!context.isAuthenticated) {
-    return redirect("/api/sign-in");
-  }
+  const context = await logto.getContext({ includeAccessToken: true })(request);
 
   return json({ context });
 };
