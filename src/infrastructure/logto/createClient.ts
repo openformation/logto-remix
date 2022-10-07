@@ -11,16 +11,14 @@
  *
  */
 
- import LogtoClient, { LogtoConfig } from "@logto/node";
- import { Session } from "@remix-run/node";
- 
- import { createStorage, LogtoStorage } from "./createStorage";
- 
- export const makeLogtoClient =
-   (config: LogtoConfig, storage: LogtoStorage) =>
-   (navigate: (url: string) => void = () => {}) => {
-     return new LogtoClient(config, { storage, navigate });
-   };
- 
- export type CreateLogtoClient = ReturnType<typeof makeLogtoClient>;
- 
+import LogtoClient, { LogtoConfig } from "@logto/node";
+import { LogtoStorage } from "./createStorage";
+
+export const makeLogtoClient =
+  (config: LogtoConfig, storage: LogtoStorage) =>
+  (navigate: (url: string) => void = () => {}) => {
+    return new LogtoClient(config, { storage, navigate });
+  };
+
+export type CreateLogtoClient = ReturnType<typeof makeLogtoClient>;
+export type { LogtoConfig };
