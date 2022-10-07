@@ -11,22 +11,22 @@
  *
  */
 
-import { LoaderArgs } from "@remix-run/node";
+import { LoaderFunction } from "@remix-run/node";
 
 import { logto } from "../../services/authentication";
 
-export async function loader(loaderArgs: LoaderArgs) {
-  switch (loaderArgs.params.action) {
+export const loader: LoaderFunction = ({ request, params }) => {
+  switch (params.action) {
     case "sign-in": {
-      return logto.handleSignIn(loaderArgs);
+      return logto.handleSignIn(request);
     }
 
     case "sign-in-callback": {
-      return logto.handleSignInCallback(loaderArgs);
+      return logto.handleSignInCallback(request);
     }
 
     case "sign-out": {
-      return logto.handleSignOut(loaderArgs);
+      return logto.handleSignOut(request);
     }
   }
-}
+};
