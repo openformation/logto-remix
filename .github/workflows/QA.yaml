@@ -1,0 +1,46 @@
+name: QA
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  QA:
+    runs-on: ubuntu-latest
+    env:
+      CI: "true"
+      TZ: "Europe/Berlin"
+    steps:
+      #
+      # Prepare Environment
+      #
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2.2.2
+        with:
+          version: 7.12.2
+
+      - name: Read .nvmrc
+        run: echo ::set-output name=NVMRC::$(cat .nvmrc)
+        id: nvm
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "${{ steps.nvm.outputs.NVMRC }}"
+
+      - name: Initialize cache for pnpm content-addressable store
+        uses: actions/cache@v2
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+
+      - name: Install pnpm Dependencies
+        run: pnpm i
+
+      - name: Perform tests
+        run: pnpm run test
