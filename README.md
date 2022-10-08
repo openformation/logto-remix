@@ -67,7 +67,9 @@ export const loader = logto.handleAuthRoutes({
 });
 ```
 
-As you can see, the mount process is configurable and you can adjust it for your particular route structure. It is just important, that the route needs to be named `$action.ts` in the end. The whole URL path structure can be customized via the passed configuration object.
+As you can see, the mount process is configurable and you can adjust it for your particular route structure. It is just important, that the Remix route needs to be named `$action.ts` in the end. The whole URL path structure can be customized via the passed configuration object.
+
+When mounting the routes as described above, you can navigate your browser to `/api/logto/sign-in` and you should be redirected to your Logto instance where you have to authenticate then.
 
 ### Get the authentication context
 
