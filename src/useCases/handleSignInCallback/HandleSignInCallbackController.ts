@@ -43,9 +43,9 @@ export class HandleSignInCallbackController {
   ): Promise<TypedResponse<never>> => {
     const cookieHeader = getCookieHeaderFromRequest(request);
 
-    // TODO: Throw semantic error
     if (!cookieHeader) {
-      throw new Error();
+      // TODO: Throw semantic error
+      throw new Error(`No cookie header found.`);
     }
 
     // DOCME

@@ -46,7 +46,7 @@ export const makeHandleAuthRoutes =
 
     if (!configExists) {
       // TODO: Throw semantic error
-      throw new Error();
+      throw new Error(`No config for path "${anticipatedPath}" found.`);
     }
 
     const { sessionStorage, createLogtoAdapter } = deps;
@@ -89,8 +89,7 @@ export const makeHandleAuthRoutes =
 
       default: {
         // TODO: Throw semantic error
-
-        throw new Error();
+        throw new Error(`Unknown route.`);
       }
     }
   };

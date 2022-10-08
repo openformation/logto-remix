@@ -45,7 +45,7 @@ export class HandleSignOutController {
 
     // TODO: Throw semantic error
     if (!cookieHeader) {
-      throw new Error();
+      throw new Error(`No cookie header found.`);
     }
 
     const result = await this.useCase({
