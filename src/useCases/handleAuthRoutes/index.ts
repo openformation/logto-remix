@@ -13,10 +13,11 @@
 
 import { LoaderFunction, SessionStorage } from "@remix-run/node";
 import { CreateLogtoAdapter } from "../../infrastructure/logto";
-import { makeGetContext } from "../getContext";
 import { makeHandleSignIn } from "../handleSignIn";
 import { makeHandleSignInCallback } from "../handleSignInCallback";
 import { makeHandleSignOut } from "../handleSignOut";
+
+import { HandleAuthRoutesError } from "./HandleAuthRoutesError";
 
 type AuthRouteConfig = {
   readonly path: string;
@@ -45,8 +46,7 @@ export const makeHandleAuthRoutes =
     const configExists = Boolean(configKey);
 
     if (!configExists) {
-      // TODO: Throw semantic error
-      throw new Error(`No config for path "${anticipatedPath}" found.`);
+      throw HandleAuthRoutesError.becauseNoConfigForPath(anticipatedPath);
     }
 
     const { sessionStorage, createLogtoAdapter } = deps;
@@ -88,8 +88,7 @@ export const makeHandleAuthRoutes =
       }
 
       default: {
-        // TODO: Throw semantic error
-        throw new Error(`Unknown route.`);
+        throw HandleAuthRoutesError.becauseOfUnknownRoute(configKey);
       }
     }
   };
