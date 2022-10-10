@@ -37,6 +37,6 @@ describe("useCases:getContext:GetContextUseCase", () => {
     expect(getContext).toBeCalledTimes(1);
     expect(getSession).toBeCalledTimes(1);
     expect(response.context.isAuthenticated).toBe(true);
-    expect(response.context.claims.email).toBe("test@test.io");
+    expect(response.context.claims?.email).toBe("test@test.io");
   });
 });
