@@ -13,6 +13,7 @@
 
 import { redirect, TypedResponse } from "@remix-run/node";
 import { getCookieHeaderFromRequest } from "../../framework/getCookieHeaderFromRequest";
+import { HandleSignOutError } from "./HandleSignOutError";
 
 import type { HandleSignOutUseCase } from "./HandleSignOutUseCase";
 
@@ -43,9 +44,8 @@ export class HandleSignOutController {
   ): Promise<TypedResponse<never>> => {
     const cookieHeader = getCookieHeaderFromRequest(request);
 
-    // TODO: Throw semantic error
     if (!cookieHeader) {
-      throw new Error(`No cookie header found.`);
+      throw HandleSignOutError.becauseNoCookieHeaderPresent();
     }
 
     const result = await this.useCase({

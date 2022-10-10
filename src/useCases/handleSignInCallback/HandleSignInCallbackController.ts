@@ -13,6 +13,7 @@
 
 import { redirect, TypedResponse } from "@remix-run/node";
 import { getCookieHeaderFromRequest } from "../../framework/getCookieHeaderFromRequest";
+import { HandleSignInCallbackError } from "./HandleSignInCallbackError";
 
 import type { HandleSignInCallbackUseCase } from "./HandleSignInCallbackUseCase";
 
@@ -44,11 +45,13 @@ export class HandleSignInCallbackController {
     const cookieHeader = getCookieHeaderFromRequest(request);
 
     if (!cookieHeader) {
-      // TODO: Throw semantic error
-      throw new Error(`No cookie header found.`);
+      throw HandleSignInCallbackError.becauseNoCookieHeaderPresent();
     }
 
-    // DOCME
+    // In some scenarios, like performing the sign-in callback within a Gitpod
+    // environment, the load balancer rewrites the URL and uses `http` as the
+    // protocol. Here, we make sure that when the `x-forwarded-proto` HTTP header
+    // is present, we will replace `http` with `https` in the `callbackUri`.
     const isForwardedHttpsTraffic =
       request.headers.get("x-forwarded-proto") === "https";
 
