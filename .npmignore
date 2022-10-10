@@ -1,0 +1,15 @@
+.github
+.husky
+.vscode
+example
+scripts
+src
+.gitignore
+.gitpod.yml
+.npmrc
+.nvmrc
+jest.config.js
+pnpm-lock.yaml
+pnpm-workspace.yaml
+tsconfig.json
+tsconfig.tsbuildinfo

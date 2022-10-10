@@ -29,6 +29,8 @@ Afterwards, we can initialize the SDK via:
 ```ts
 // app/services/authentication.ts
 
+import { makeLogtoRemix } from "@openformation/logto-remix";
+
 export const logto = makeLogtoRemix(
   {
     endpoint: process.env.LOGTO_ENDPOINT!,
