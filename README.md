@@ -1,3 +1,5 @@
+# 🎉 This package is now a part of the official [Logto](https://logto.io) distribution: [@logto/remix`](https://www.npmjs.com/package/@logto/remix) 🎉
+
 # @openformation/logto-remix
 
 Logto Remix SDK written in TypeScript
